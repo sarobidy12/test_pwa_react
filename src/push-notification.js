@@ -22,18 +22,22 @@ export const initializeFirebase = () => {
 
 export const askForPermissioToReceiveNotifications = async(callback) => {
 
+    const messaging = firebase.messaging();
 
     const publicKey =
         "BJmO7UXc0phrIYym8zDuP2Hs3hhigy9J_r_Yq6Vn7BW6UQbBq-QnAH-SpbAuKOBQsQieIsk-aigPrI6lmsUOR9g";
 
     try {
-        const messaging = firebase.messaging();
-        const token = await messaging.getToken({ vapidKey: publicKey });
-        localStorage.setItem('tokenDevice', token)
+        const currentToken = await messaging.getToken({ vapidKey: publicKey });
 
-        callback()
+        if (currentToken) {
+            localStorage.setItem('tokenDevice', currentToken)
+            console.log("currentToken", currentToken);
+        }
+
     } catch (error) {
-        console.error(error);
+        console.log("An error occurred while retrieving token. ", error);
     }
+
 
 }
