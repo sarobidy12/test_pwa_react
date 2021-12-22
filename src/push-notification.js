@@ -33,6 +33,7 @@ export const askForPermissioToReceiveNotifications = async(callback) => {
         if (currentToken) {
             localStorage.setItem('tokenDevice', currentToken)
             console.log("currentToken", currentToken);
+            callback()
         }
 
     } catch (error) {
